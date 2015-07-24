@@ -1,0 +1,29 @@
+.pitch {
+  width: 490px;
+  height: 470px;
+  background: url('http://cdn.ismfg.net/static/plfpl/img/pitch.png');
+  text-align: center;
+  margin: auto auto;
+}
+
+.player {
+  width: 98px;
+  text-align: center;
+  color: black;
+  font-size: .7em;
+  margin: auto auto;
+}
+.player img.shirt {
+  display: block;
+  margin: auto auto;
+  width: 50px;
+}
+
+.playerGroup {
+  margin-bottom: 20px;
+}
+
+.userActions, .formationSelector {
+  margin: 15px;
+  text-align: center;
+}
