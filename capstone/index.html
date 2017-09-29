@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+	<style>
+	.ok {color: green}
+	.warning {color: orange}
+	.problem {color: red}
+	main {
+		background: #F7F7F7;
+	
+	}
+	
+	.metric-name {font-size: .8em; color: #73879C}
+	.metric-value {color: #73879C; font-weight: bold; font-size: 2.5em}
+	.metric-info {font-size: .8em; color: #73879C}
+	.left-border {border-left: 2px solid #73879C; margin: 15px;}
+			.section-header {border-bottom: 1px solid #73879C; padding: 15px; color: #73879C}
+		section {background: white; margin-bottom: 30px; padding: 10px;}
+	</style>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart', 'gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+	  
+	  function drawChart() {
+		drawReserveFund();
+		drawOverallHealth();
+		drawElevatorUse();
+		drawRainfallChart();
+		drawExpenseBubbleChart();
+	  }
+
+      function drawReserveFund() {
+        var data = google.visualization.arrayToDataTable([
+          ['Category', 'Amount'],
+          ['Remaining', 18000],
+		  ['Used',     2000]
+          
+        ]);
+        var options = {
+          title: '',
+		  animation: {startup: true, duration: 1000, easing: 'out'}
+
+
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('reseve-fund-pie'));
+        chart.draw(data, options);
+      }
+	  
+	  
+      function drawOverallHealth() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Health', 84]
+        ]);
+
+        var options = {
+          redFrom: 0, redTo: 40,
+          yellowFrom:41, yellowTo: 80,
+		  greenFrom:41, greenTo: 100,
+          minorTicks: 10,
+		  animation: {startup: true, duration: 1000, easing: 'out'}
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('overall-health-gauge'));
+
+        chart.draw(data, options);
+
+      }	  
+	  
+	  function drawElevatorUse() {
+       // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+         ['Week', 'East 1', 'East 2', 'West 1', 'West 2', 'Average'],
+         ['Last Week',  1432,      1235,        901,             968,           900],
+         ['This Week',  1654,      1154,         876,             877,          900]
+      ]);
+
+    var options = {
+      title : 'Elevator Use',
+      vAxis: {title: 'Rides'},
+      hAxis: {title: 'Week'},
+      seriesType: 'bars',
+      series: {4: {type: 'line'}},
+	  animation: {startup: true, duration: 1000, easing: 'out'}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('elevator-use'));
+    chart.draw(data, options);	  
+	  }
+	  
+	function drawRainfallChart() {
+        var data = google.visualization.arrayToDataTable([
+['Date', 'Moisture Level', 'Rainfall'],
+['1-May', 0, 0],
+['2-May', 3, 0],
+['3-May', 3, 0],
+['4-May', 2, 0],
+['5-May', 2, 0],
+['6-May', 3, 0],
+['7-May', 1, 0],
+['8-May', 1, 0],
+['9-May', 1, 0],
+['10-May', 1, 0],
+['11-May', 8, 10],
+['12-May', 4, 0],
+['13-May', 4, 0],
+['14-May', 4, 0],
+['15-May', 12, 16],
+['16-May', 12, 15],
+['17-May', 11, 0],
+['18-May', 8, 0],
+['19-May', 8, 0],
+['20-May', 7, 0],
+['21-May', 7, 0],
+['22-May', 7, 0],
+['23-May', 11, 0],
+['24-May', 11, 5],
+['25-May', 6, 0],
+['26-May', 6, 0],
+['27-May', 6, 0],
+['28-May', 6, 0],
+['29-May', 13, 23],
+['30-May', 11, 0],
+['31-May', 12, 0],
+['1-Jun', 6, 0],
+['2-Jun', 6, 0],
+['3-Jun', 6, 0],
+['4-Jun', 3, 0],
+['5-Jun', 3, 0],
+['6-Jun', 3, 0],
+['7-Jun', 3, 0],
+['8-Jun', 3, 0],
+['9-Jun', 3, 0],
+['10-Jun', 12, 13],
+['11-Jun', 10, 0],
+['12-Jun', 8, 0],
+['13-Jun', 8, 0],
+['14-Jun', 8, 0],
+['15-Jun', 8, 0],
+['16-Jun', 12, 20],
+['17-Jun', 8, 0],
+['18-Jun', 8, 0],
+['19-Jun', 7, 0],
+['20-Jun', 7, 0],
+['21-Jun', 3, 0],
+['22-Jun', 3, 0],
+['23-Jun', 3, 0],
+['24-Jun', 3, 0],
+['25-Jun', 3, 0],
+['26-Jun', 3, 0],
+['27-Jun', 3, 0],
+['28-Jun', 3, 0],
+['29-Jun', 15, 10],
+['30-Jun', 12, 0],
+['1-Jul', 11, 0],
+['2-Jul', 7, 0],
+['3-Jul', 3, 0],
+['4-Jul', 3, 0],
+['5-Jul', 3, 0],
+['6-Jul', 3, 0],
+['7-Jul', 3, 0],
+['8-Jul', 3, 0],
+['9-Jul', 4, 0],
+['10-Jul', 2, 0],
+['11-Jul', 3, 0],
+['12-Jul', 4, 0],
+['13-Jul', 2, 0],
+['14-Jul', 3, 0],
+['15-Jul', 13, 23],
+['16-Jul', 13, 0],
+['17-Jul', 12, 0],
+['18-Jul', 11, 0],
+['19-Jul', 8, 0],
+['20-Jul', 3, 0],
+['21-Jul', 3, 0],
+['22-Jul', 3, 0],
+['23-Jul', 3, 0],
+['24-Jul', 4, 0],
+['25-Jul', 3, 0],
+['26-Jul', 3, 0],
+['27-Jul', 2, 0],
+['28-Jul', 3, 0],
+['29-Jul', 4, 0],
+['30-Jul', 4, 0],
+['31-Jul', 2, 0]
+        ]);	
+	
+	       var options = {
+          title: 'Party Room Patio',
+          hAxis: {title: 'Month',  titleTextStyle: {color: '#333'}},
+          vAxis: {title: 'Moisture/Rainfall', minValue: 0},
+		  animation: {startup: true, duration: 1000, easing: 'out'}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('rainfall'));
+        chart.draw(data, options);
+		
+		
+		}
+		
+    function drawExpenseBubbleChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['ID', 'Brand Rating', 'Original Cost', 'Category',     'Total Expenditures'],
+        ['Valve',    80.66,              1.67,      'Heat',  3548],
+        ['Sump',    79.84,              1.36,      'Water',         2098],
+        ['Bridge',    78.6,               1.84,      'Water',         108],
+        ['In Duct',    72.73,              2.78,      'HVAC',    3111],
+        ['Out Duct',    68.09,              4.77,      'HVAC',    1432],
+        ['Drain',    68.6,               1.54,      'Water',         256],
+        ['Thermo',    78.09,              2.05,      'Heat',  1000]
+      ]);
+
+      var options = {
+        hAxis: {title: 'Brand Rating'},
+        vAxis: {title: 'Original Cost'},
+        bubble: {textStyle: {fontSize: 11}},
+		animation: {startup: true, duration: 1000, easing: 'out'}
+      };
+
+      var chart = new google.visualization.BubbleChart(document.getElementById('expense-bubble'));
+      chart.draw(data, options);
+    }		
+	  
+    </script>	
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Dashboard</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Reports</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Nav item</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Nav item again</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">One more nav</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Another nav item</a>
+            </li>
+          </ul>
+
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Nav item again</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">One more nav</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Another nav item</a>
+            </li>
+          </ul>
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+		
+			<div class="row">
+				<div class="col" style="margin: 15px">
+				<div class="metric-name">Spend this year</div>
+				<div class="metric-value">$9,453</div>
+				<div class="metric-info"><span class="fa fa-arrow-up problem" aria-hidden="true"></span> 3% from last year</div>
+				</div>
+
+				<div class="col" style="margin: 15px">
+				<div class="metric-name">Spend this month</div>
+				<div class="metric-value">$654</div>
+				<div class="metric-info"><span class="fa fa-arrow-up problem" aria-hidden="true"></span> 5% from last month</div>
+				</div>				
+				
+				<div class="col left-border">
+				<div class="metric-name">Next month's projected spend</div>
+				<div class="metric-value">$512</div>
+				<div class="metric-info"><span class="fa fa-arrow-up ok" aria-hidden="true"></span> 22% from this month</div>
+				</div>
+
+
+				<div class="col left-border">
+				<div class="metric-name">Incidents requiring current attention</div>
+				<div class="metric-value">6</div>
+				<div class="metric-info"><span class="fa fa-arrow-down ok" aria-hidden="true"></span> Down 3 from last month</div>
+				</div>
+
+
+				<div class="col left-border">
+				<div class="metric-name">System failures this month</div>
+				<div class="metric-value">0</div>
+				<div class="metric-info"><span class="fa fa-arrow-right" aria-hidden="true"></span> No change from last month</div>
+				</div>
+
+
+
+				
+			</div>
+		
+
+		
+
+          <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Key Performance Indicators</h4>
+
+			<div class="row text-center">
+			
+            <div class="col-8 col-sm-4">
+              <div id="reseve-fund-pie" style="width:700px; height: 300px"></div>
+              <h4>Reserve Fund Status</h4>
+              <div class="text-muted">Projected to spend less than allocated amount in 2017</div>
+            </div>
+			
+			
+            <div class="col-8 col-sm-4">
+			<br/><br/><br/>
+              <div id="overall-health-gauge" style="  display: inline-block; margin: 0 auto !important;"></div>
+			  <br/>
+              <h4>Overall Health</h4>
+              <span class="text-muted">84% of assets will last longer than planned</span>
+            </div>
+			
+			
+            <div class="col-8 col-sm-4">
+                  <div id="expense-bubble" style="width: 500px; height: 300px;"></div>
+
+              <h4>Key Expenditures</h4>
+              <span class="text-muted">Valve's are the most expensive asset</span>
+            </div>
+
+			
+			
+			</div>	
+
+
+			
+			</div>
+          </section>
+
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Asset Ratings</h4>
+
+			<div class="row">
+            <div class="col col-sm-6">
+              						          <div class="table-responsive">
+  <table class="table table-striped">
+<thead><tr><th>Element</th><th>Rating</th><th>Status</th></tr></thead><tbody>
+ <tr><td>Roofing</td><td>100</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+ <tr><td>HVAC</td><td>78</td><td><span class="fa fa-close problem" aria-hidden="true"></span></td></tr>
+ <tr><td>Elavator A</td><td>6</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+ <tr><td>Elevator B</td><td>99</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+ <tr><td>Elevator C</td><td>67</td><td><span class="fa fa-close problem" aria-hidden="true"></span></td></tr>
+ <tr><td>Pool</td><td>100</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+ <tr><td>Parking Garage</td><td>100</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+ <tr><td>Driveway</td><td>90</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+ <tr><td>Moisture Detection</td><td>89</td><td><span class="fa fa-check-square ok" aria-hidden="true"></span></td></tr>
+</tbody></table>
+          </div>
+            </div>
+            <div class="col col-sm-6">
+			
+			<div id="elevator-use" style="width: 800px; height: 500px;"></div>
+			
+            </div>
+
+
+			
+			
+			</div>			
+			</div>
+          </section>
+		  
+		  
+		  
+		  
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Swimming Pool - Rainfall Effect</h4>
+
+			<div class="row">
+            <div class="col col-sm-12">
+
+			<div id="rainfall" style="height: 300px"></div>
+			
+            </div>
+
+
+			
+			
+			</div>			
+			</div>
+          </section>		  
+		  
+
+			
+	  
+
+
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
