@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>brIQ Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+	<style>
+	.ok {color: green}
+	.warning {color: orange}
+	.problem {color: red}
+	main {
+		background: #F7F7F7;
+	
+	}
+	
+	.metric-name {font-size: .8em; color: #73879C}
+	.metric-value {color: #73879C; font-weight: bold; font-size: 2.5em}
+	.metric-info {font-size: .8em; color: #73879C}
+	.left-border {border-left: 2px solid #73879C; margin: 15px;}
+			.section-header {border-bottom: 1px solid #73879C; padding: 15px; color: #73879C}
+		section {background: white; margin-bottom: 30px; padding: 10px;}
+		
+		
+		.sidebar {background: #eaeaea}
+		.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {font-weight: bold; color: #222; background: none;}
+		.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link {color: #222; background: none;}
+	</style>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart', 'gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+	  
+	  function drawChart() {
+		drawElectricityUsageChart();
+		drawPoolTemperatureCurrent();
+		drawPoolHumidityCurrent();
+		drawPoolUse();
+	  }
+
+
+	function generateRandomNumber(start, end){
+		return Math.floor(Math.random() * end) + start;
+	}
+	function electricityUsageChartDataLoader(chart, data, options) {
+		if (data.getNumberOfRows() != 0) {
+			data.removeRow(0);
+		}
+		data.addRows([[electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+		for (var i=0; i<data.getNumberOfRows()-1; i++) {
+			data.setValue(i, 0, (data.getNumberOfRows()-i) * electricityMillisecondsPassed/1000 + "");			
+		}		
+		chart.draw(data, options);
+	}
+	
+	var electricityMillisecondsPassed = 5000; // 5 seconds
+	var poolUseMillisecondsPassed = 1000 * 60 * 15; // 15 minutes
+	
+	function drawElectricityUsageChart() {
+        var data = new google.visualization.DataTable({
+  cols: [
+  
+  {id: 'A', label: 'Label', type: 'string'},
+  {id: 'C', label: 'Average', type: 'number'},
+         {id: 'B', label: 'Current', type: 'number'}
+         
+  ]
+});
+        var options = {
+          curveType: 'function',
+          legend: { position: 'bottom' },
+		  hAxis: {title: 'Seconds ago'},
+		vAxis: {title: 'kW'}
+        };
+		var chart = new google.visualization.LineChart(document.getElementById('electricity-usage'));
+		
+		for (var i=12; i>0; i--) {
+			data.addRows([[i*electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+		}
+		chart.draw(data, options);
+		
+		setInterval(function() {electricityUsageChartDataLoader(chart, data, options)}, electricityMillisecondsPassed);
+	}
+	
+	
+	function drawPoolTemperatureCurrent() {
+	        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Temp.', 27]
+        ]);
+
+        var options = {
+          yellowFrom: 0, redTo: 24,
+		  greenFrom:25, greenTo: 30,
+		  redFrom: 30, redTo: 35,
+		  min: 15,
+		  max: 35,
+          minorTicks: 10        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('pool-temperature-current'));
+
+        chart.draw(data, options);
+		
+		  setInterval(function() {
+          data.setValue(0, 1, 27 + Math.round(2 * Math.random()));
+          chart.draw(data, options);
+        }, 1000);
+	
+	}
+	
+		function drawPoolHumidityCurrent() {
+	        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Humidity.', 55]
+        ]);
+
+        var options = {
+          greenFrom: 0, greenTo: 65,
+		  yellowFrom:65, greenTo: 75,
+		  redFrom: 75, redTo: 100,
+          minorTicks: 10        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('pool-humidity-current'));
+
+        chart.draw(data, options);
+		
+		  setInterval(function() {
+          data.setValue(0, 1, 55 + Math.round(5 * Math.random()));
+          chart.draw(data, options);
+        }, 1000);
+	
+	}
+	
+	
+	
+	function poolUseDataLoader(chart, data, options) {
+		if (data.getNumberOfRows() != 0) {
+			data.removeRow(0);
+		}
+		data.addRows([[electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+		for (var i=0; i<data.getNumberOfRows()-1; i++) {
+			data.setValue(i, 0, (data.getNumberOfRows()-i) * electricityMillisecondsPassed/1000 + "");			
+		}		
+		chart.draw(data, options);
+	}
+
+	
+	function drawPoolUse() {
+        var data = new google.visualization.DataTable({
+  cols: [
+  
+  {id: 'A', label: 'Label', type: 'string'},
+  {id: 'C', label: 'Average', type: 'number'}         
+  ]
+});
+        var options = {
+		legend: 'none',
+          curveType: 'none',
+		  hAxis: {title: 'Minutes ago'},
+		vAxis: {title: 'Number of People'}
+        };
+		var chart = new google.visualization.LineChart(document.getElementById('pool-usage'));
+		
+		for (var i=8; i>0; i--) {
+			data.addRows([[i*poolUseMillisecondsPassed/(1000*60) + "", generateRandomNumber(3, 6)]]);
+		}
+		chart.draw(data, options);
+		
+		setInterval(function() {poolUseDataLoader(chart, data, options)}, poolUseMillisecondsPassed);
+	}
+	  
+    </script>	
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">brIQ</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="real-time.html">Real Time <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Reporting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+		
+		  
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Electricity Use in last 60 seconds</h4>
+
+			<div class="row">
+            <div class="col col-sm-12">
+
+			<div id="electricity-usage" style="height: 300px"></div>
+			
+            </div>
+
+
+			
+			
+			</div>			
+			</div>
+          </section>	
+			
+	  
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Swimming Pool</h4>
+
+			<div class="row">
+            <div class="col text-center">
+
+			<div id="pool-temperature-current" style="display: inline-block; margin: 0 auto !important;"></div>
+			              <h4>Current Temperature</h4>
+              <div class="text-muted">It's nice and comfortable</div>
+
+			
+            </div>
+			
+			
+            <div class="col text-center">
+
+			<div id="pool-humidity-current" style="display: inline-block; margin: 0 auto !important;"></div>
+						              <h4>Current Humidity</h4>
+              <div class="text-muted">Slightly higher humidity, consider lowering temperature</div>
+			
+            </div>
+
+
+			            <div class="col text-center">
+
+			<div id="pool-usage"></div>
+						              <h4>Pool Visitors</h4>
+              <div class="text-muted">Updated every 15 minutes</div>
+			
+			
+            </div>
+			
+			
+			</div>			
+			</div>
+          </section>		  
+	  
+
+	  <style>
+		.parking-lot {
+			width: 100%;
+		}
+		.parking-lot td {
+			width: 100px;
+			height: 250px;	
+
+text-align: center;		
+		}
+		.parking-lot .number {
+			font-size: 2em;
+			font-family: arial;
+			display: block;
+			color: #ccc;
+		}
+		
+		.parking-lot .row1 td {
+			vertical-align: bottom;
+			border: 1px solid #222;
+			border-color: #ccc;
+			border-width: 0px 2px 2px 2px;
+		}
+		.parking-lot .row2 td {
+			vertical-align: top;
+			border: 1px solid #222;
+			border-color: #ccc;
+			border-width: 2px 2px 0px 2px;			
+		}		
+		
+		.fa-car, .fa-wheelchair, .fa-wheelchair-alt {color: #00BFFF; font-size: 5em;}
+		.fa-wheelchair, .fa-wheelchair-alt {color: #008080}
+		
+	  </style>
+	  
+	  		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Visitor Parking</h4>
+			<p class="text-muted text-center">
+				Last checked 5 minutes ago.
+			</p>
+			<div class="row">
+            <div class="col col-sm-12">
+
+			<table class="parking-lot">
+				<tr class="row1">
+					<td><span class="fa fa-wheelchair fa-5x" aria-hidden="true"></span><span class="number">V1</span></td>
+					<td><span class="fa fa-car fa-5x" aria-hidden="true"></span><span class="number">V2</span></td>
+					<td><span class="number">V3</span></td>
+					<td><span class="fa fa-car fa-5x" aria-hidden="true"></span><span class="number">V4</span></td>
+					<td><span class="fa fa-car fa-5x" aria-hidden="true"></span><span class="number">V5</span></td>
+				</tr>
+				<tr class="row2">
+					<td><span class="number">V6</span><span class="fa fa-wheelchair fa-5x" aria-hidden="true"></td>
+					<td><span class="number">V7</span><span class="fa fa-car fa-5x" aria-hidden="true"></span></td>
+					<td><span class="number">V8</span></td>
+					<td><span class="number">V7</span><span class="fa fa-car fa-5x" aria-hidden="true"></span></td>
+					<td><span class="number">V10</span></td>
+				</tr>				
+			
+			</table>
+			
+            </div>
+
+
+			
+			
+			</div>			
+			</div>
+          </section>	
+	  
+	  
+	  
+	  	  		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Waste Disposal</h4>
+			<p class="text-muted text-center">
+				Last checked 15 minutes ago.
+			</p>
+			<div class="row text-center">
+            <div class="col">
+				<span class="fa fa-trash fa-5x" style="color: orange" aria-hidden="true"></span>
+				
+				
+						              <h4>87%</h4>
+									  
+              <div class="text-muted"><p>The garbage container is approaching capacity.</p>
+			  <p>
+			  <button type="button" class="btn btn-outline-primary">Notify Attendant</button>
+			  </p>
+			  </div>				
+            </div>
+
+
+		            <div class="col">
+				<span class="fa fa-recycle fa-5x" style="color:green" aria-hidden="true"></span>
+				
+				
+						              <h4>15%</h4>
+              <div class="text-muted">Recycling will need to be replaced in 4 hours.</div>				
+            </div>	
+
+
+		            <div class="col">
+				<span class="fa fa-cutlery fa-5x" style="color:#ccc" aria-hidden="true"></span>
+				
+				
+						              <h4>40%</h4>
+              <div class="text-muted">Composte will need to be replaced in 7 hours.</div>				
+            </div>	
+
+
+
+			
+			</div>			
+			</div>
+          </section>
+	  
+
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
