@@ -42,6 +42,7 @@
 		drawElevatorUse();
 		drawRainfallChart();
 		drawExpenseBubbleChart();
+		drawElectricityUsageChart();
 	  }
 
       function drawReserveFund() {
@@ -236,7 +237,53 @@
 
       var chart = new google.visualization.BubbleChart(document.getElementById('expense-bubble'));
       chart.draw(data, options);
-    }		
+    }	
+
+	function generateRandomNumber(start, end){
+		return Math.floor(Math.random() * end) + start;
+	}
+	function electricityUsageChartDataLoader(chart, data, options) {
+		console.log(data);
+		if (data.getNumberOfRows() != 0) {
+			data.removeRow(0);
+		}
+		data.addRows([[electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+		for (var i=0; i<data.getNumberOfRows()-1; i++) {
+			electricityHorizontalLabel = (data.getNumberOfRows()-i) * electricityMillisecondsPassed/1000;
+			data.setValue(i, 0, electricityHorizontalLabel + "");			
+		}		
+		chart.draw(data, options);
+	}
+	
+	var electricityHorizontalLabel = 0;
+	var electricityMillisecondsPassed = 5000;
+	
+	function drawElectricityUsageChart() {
+        var data = new google.visualization.DataTable({
+  cols: [
+  
+  {id: 'A', label: 'Label', type: 'string'},
+  {id: 'C', label: 'Average', type: 'number'},
+         {id: 'B', label: 'Current', type: 'number'}
+         
+  ]
+});
+        var options = {
+          curveType: 'function',
+          legend: { position: 'bottom' },
+		  hAxis: {title: 'Seconds ago'},
+		vAxis: {title: 'kW'}
+        };
+		var chart = new google.visualization.LineChart(document.getElementById('electricity-usage'));
+		
+		for (var i=12; i>0; i--) {
+			electricityHorizontalLabel = i*electricityMillisecondsPassed/1000;
+			data.addRows([[electricityHorizontalLabel + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+		}
+		chart.draw(data, options);
+		
+		setInterval(function() {electricityUsageChartDataLoader(chart, data, options)}, electricityMillisecondsPassed);
+	}
 	  
     </script>	
 
@@ -326,7 +373,7 @@
 				<div class="metric-info"><span class="fa fa-arrow-up problem" aria-hidden="true"></span> 3% from last year</div>
 				</div>
 
-				<div class="col" style="margin: 15px">
+				<div class="col left-border">
 				<div class="metric-name">Spend this month</div>
 				<div class="metric-value">$654</div>
 				<div class="metric-info"><span class="fa fa-arrow-up problem" aria-hidden="true"></span> 5% from last month</div>
@@ -453,7 +500,23 @@
 			</div>
           </section>		  
 		  
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Electricity Use in last 60 seconds</h4>
 
+			<div class="row">
+            <div class="col col-sm-12">
+
+			<div id="electricity-usage" style="height: 300px"></div>
+			
+            </div>
+
+
+			
+			
+			</div>			
+			</div>
+          </section>	
 			
 	  
 
