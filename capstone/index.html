@@ -43,6 +43,9 @@
 		drawRainfallChart();
 		drawExpenseBubbleChart();
 		drawElectricityUsageChart();
+		drawPoolTemperatureCurrent();
+		drawPoolHumidityCurrent();
+		drawPoolUse();
 	  }
 
       function drawReserveFund() {
@@ -243,20 +246,18 @@
 		return Math.floor(Math.random() * end) + start;
 	}
 	function electricityUsageChartDataLoader(chart, data, options) {
-		console.log(data);
 		if (data.getNumberOfRows() != 0) {
 			data.removeRow(0);
 		}
 		data.addRows([[electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
 		for (var i=0; i<data.getNumberOfRows()-1; i++) {
-			electricityHorizontalLabel = (data.getNumberOfRows()-i) * electricityMillisecondsPassed/1000;
-			data.setValue(i, 0, electricityHorizontalLabel + "");			
+			data.setValue(i, 0, (data.getNumberOfRows()-i) * electricityMillisecondsPassed/1000 + "");			
 		}		
 		chart.draw(data, options);
 	}
 	
-	var electricityHorizontalLabel = 0;
-	var electricityMillisecondsPassed = 5000;
+	var electricityMillisecondsPassed = 5000; // 5 seconds
+	var poolUseMillisecondsPassed = 1000 * 60 * 15; // 15 minutes
 	
 	function drawElectricityUsageChart() {
         var data = new google.visualization.DataTable({
@@ -277,12 +278,98 @@
 		var chart = new google.visualization.LineChart(document.getElementById('electricity-usage'));
 		
 		for (var i=12; i>0; i--) {
-			electricityHorizontalLabel = i*electricityMillisecondsPassed/1000;
-			data.addRows([[electricityHorizontalLabel + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+			data.addRows([[i*electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
 		}
 		chart.draw(data, options);
 		
 		setInterval(function() {electricityUsageChartDataLoader(chart, data, options)}, electricityMillisecondsPassed);
+	}
+	
+	
+	function drawPoolTemperatureCurrent() {
+	        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Temp.', 27]
+        ]);
+
+        var options = {
+          yellowFrom: 0, redTo: 24,
+		  greenFrom:25, greenTo: 30,
+		  redFrom: 30, redTo: 35,
+		  min: 15,
+		  max: 35,
+          minorTicks: 10        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('pool-temperature-current'));
+
+        chart.draw(data, options);
+		
+		  setInterval(function() {
+          data.setValue(0, 1, 27 + Math.round(2 * Math.random()));
+          chart.draw(data, options);
+        }, 1000);
+	
+	}
+	
+		function drawPoolHumidityCurrent() {
+	        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Humidity.', 55]
+        ]);
+
+        var options = {
+          greenFrom: 0, greenTo: 65,
+		  yellowFrom:65, greenTo: 75,
+		  redFrom: 75, redTo: 100,
+          minorTicks: 10        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('pool-humidity-current'));
+
+        chart.draw(data, options);
+		
+		  setInterval(function() {
+          data.setValue(0, 1, 55 + Math.round(5 * Math.random()));
+          chart.draw(data, options);
+        }, 1000);
+	
+	}
+	
+	
+	
+	function poolUseDataLoader(chart, data, options) {
+		if (data.getNumberOfRows() != 0) {
+			data.removeRow(0);
+		}
+		data.addRows([[electricityMillisecondsPassed/1000 + "", generateRandomNumber(10, 15), generateRandomNumber(10, 20)]]);
+		for (var i=0; i<data.getNumberOfRows()-1; i++) {
+			data.setValue(i, 0, (data.getNumberOfRows()-i) * electricityMillisecondsPassed/1000 + "");			
+		}		
+		chart.draw(data, options);
+	}
+
+	
+	function drawPoolUse() {
+        var data = new google.visualization.DataTable({
+  cols: [
+  
+  {id: 'A', label: 'Label', type: 'string'},
+  {id: 'C', label: 'Average', type: 'number'}         
+  ]
+});
+        var options = {
+		legend: 'none',
+          curveType: 'none',
+		  hAxis: {title: 'Minutes ago'},
+		vAxis: {title: 'Number of People'}
+        };
+		var chart = new google.visualization.LineChart(document.getElementById('pool-usage'));
+		
+		for (var i=8; i>0; i--) {
+			data.addRows([[i*poolUseMillisecondsPassed/(1000*60) + "", generateRandomNumber(3, 6)]]);
+		}
+		chart.draw(data, options);
+		
+		setInterval(function() {poolUseDataLoader(chart, data, options)}, poolUseMillisecondsPassed);
 	}
 	  
     </script>	
@@ -422,7 +509,7 @@
 			
             <div class="col-8 col-sm-4">
 			<br/><br/><br/>
-              <div id="overall-health-gauge" style="  display: inline-block; margin: 0 auto !important;"></div>
+              <div id="overall-health-gauge" style="display: inline-block; margin: 0 auto !important;"></div>
 			  <br/>
               <h4>Overall Health</h4>
               <span class="text-muted">84% of assets will last longer than planned</span>
@@ -484,7 +571,7 @@
 		  
 		            <section class="row">
 		  <div class="col">
-			<h4 class="section-header">Swimming Pool - Rainfall Effect</h4>
+			<h4 class="section-header">Patio Windows - Rainfall Effect</h4>
 
 			<div class="row">
             <div class="col col-sm-12">
@@ -518,6 +605,44 @@
 			</div>
           </section>	
 			
+	  
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Swimming Pool</h4>
+
+			<div class="row">
+            <div class="col text-center">
+
+			<div id="pool-temperature-current" style="display: inline-block; margin: 0 auto !important;"></div>
+			              <h4>Current Temperature</h4>
+              <div class="text-muted">It's nice and comfortable</div>
+
+			
+            </div>
+			
+			
+            <div class="col text-center">
+
+			<div id="pool-humidity-current" style="display: inline-block; margin: 0 auto !important;"></div>
+						              <h4>Current Humidity</h4>
+              <div class="text-muted">Slightly higher humidity, consider lowering temperature</div>
+			
+            </div>
+
+
+			            <div class="col text-center">
+
+			<div id="pool-usage"></div>
+						              <h4>Pool Visitors</h4>
+              <div class="text-muted">Updated every 15 minutes</div>
+			
+			
+            </div>
+			
+			
+			</div>			
+			</div>
+          </section>		  
 	  
 
 
