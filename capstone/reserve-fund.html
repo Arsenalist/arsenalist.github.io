@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>brIQ Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+	<style>
+	.ok {color: green}
+	.warning {color: orange}
+	.problem {color: red}
+	main {
+		background: #F7F7F7;
+	
+	}
+	
+	.metric-name {font-size: .8em; color: #73879C}
+	.metric-value {color: #73879C; font-weight: bold; font-size: 2.5em}
+	.metric-info {font-size: .8em; color: #73879C}
+	.left-border {border-left: 2px solid #73879C; margin: 15px;}
+			.section-header {border-bottom: 1px solid #73879C; padding: 15px; color: #73879C}
+		section {background: white; margin-bottom: 30px; padding: 10px;}
+		
+		
+		.sidebar {background: #eaeaea}
+		.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {font-weight: bold; color: #222; background: none;}
+		.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link {color: #222; background: none;}
+	</style>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart', 'gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+	  
+	  function drawChart() {
+	  }	  
+    </script>	
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">brIQ</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Overview <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="real-time.html">Real Time</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="reserve-fund.html">Reserve Fund</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+		
+			<div class="row">
+				<div class="col" style="margin: 15px">
+				<div class="metric-name">Current Replacement Costs Forecast</div>
+				<div class="metric-value">$920,675</div>
+				<div class="metric-info"><span class="fa fa-arrow-up problem" aria-hidden="true"></span> 3% from last month</div>
+				</div>
+
+				<div class="col left-border">
+				<div class="metric-name">Annual Replacement Costs Forecast</div>
+				<div class="metric-value">$62,564</div>
+				<div class="metric-info"><span class="fa fa-arrow-up problem" aria-hidden="true"></span> 5% from last month</div>
+				</div>				
+
+				<div class="col left-border">
+				<div class="metric-name">Recommended Safety Margin</div>
+				<div class="metric-value">$65,000 </div>
+				<div class="metric-info"><span class="fa fa-arrow-right problem" aria-hidden="true"></span> No change from last month</div>
+				</div>				
+
+				
+			</div>
+		
+
+		
+
+		  
+		  
+		            <section class="row">
+		  <div class="col">
+			<h4 class="section-header">Reserve Fund Summary</h4>
+
+			<div class="row">
+            <div class="col">
+<table class="table">
+<thead><tr class="tableizer-firstrow"><th>Item</th><th>Amount</th></tr></thead><tbody>
+ <tr><td>Current Replacement Costs Forecast</td><td>$920,675 </td></tr>
+ <tr><td>Annual Replacement Costs Forecast</td><td>$62,564 </td></tr>
+ <tr><td>Recommended Safety Margin</td><td>$65,000 </td></tr>
+ <tr><td>Opening Fund Balance</td><td>$187,560 </td></tr>
+ <tr><td>Current Annual Reserve Contribution</td><td>$34,000 </td></tr>
+ <tr><td>Recommended Annual Contribution</td><td>$36,000 </td></tr>
+</tbody></table>
+			
+			
+            </div>
+
+
+			            <div class="col">
+<table class="table">
+<thead><tr class="tableizer-firstrow"><th>Item</th><th>Target Allocation</th><th>Target </th></tr></thead><tbody>
+ <tr><td>Roofing</td><td>25%</td><td>$46,890 </td></tr>
+ <tr><td>Windows and External Doors</td><td>30%</td><td>$56,268 </td></tr>
+ <tr><td>Amenities</td><td>15%</td><td>$28,134 </td></tr>
+ <tr><td>HVAC</td><td>15%</td><td>$28,134 </td></tr>
+ <tr><td>Parking Garage</td><td>10%</td><td>$18,756 </td></tr>
+ <tr><td>Moisture Damage</td><td>5%</td><td>$9,378 </td></tr>
+ <tr><td>Emergency Repairs</td><td>5%</td><td>$9,378 </td></tr>
+</tbody></table>
+
+            </div>
+			
+			
+			
+			
+			
+			
+			</div>			
+			</div>
+          </section>		  
+
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
