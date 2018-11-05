@@ -52,7 +52,7 @@ function displayLineup() {
     var positionLabels = ['PG', 'SG', 'SF', 'PF', 'C'];
     for (var i=0; i<randomLineup.length; i++) {
         var p = randomLineup[i];
-        str += '<td><center><img src="' + p.headshot + '"/><br/>' + p.name + '<br/>' + positionLabels[i] + '</center></td>';
+        str += '<td><center><img class="img-fluid" src="' + p.headshot + '"/><br/>' + p.name + '<br/>' + positionLabels[i] + '</center></td>';
     }
     str += '</tr></table>';
 
