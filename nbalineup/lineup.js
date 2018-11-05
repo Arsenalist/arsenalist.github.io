@@ -1,4 +1,34 @@
 $(function() {
+
+    var messages = [
+        "Oh boy, we gonna rock the opposition.",
+        "Lord have mercy, I feel bad for the other team.",
+        "Sweet Mother of God, should we even bother playing this game?",
+        "72-10 Bulls better watch out.",
+        "This lineup could beat GSW in Game 7 on the road.",
+        "Wait a minute - is this lineup even fair?",
+        "Get out the Salami and Cheese mama!",
+        "This lineup has been deemed unfair by NATO.",
+        "Trump would use an Executive Order on this lineup. Lineup wouldn't care.",
+        "Bill Russell says this lineup could beat his Celtics.",
+        "Wait, are you serious? Would the NBA even allow this lineup?",
+        "Put a cup of tea on, this lineup about to entertain.",
+        "Tell your girl you gonna be home late tonight, we gonna dance.",
+        "After watching this lineup, you still miss DeMar DeRozan?",
+        "We about to drop some Bombs over Baghdad.",
+        "This lineup can walk like an Egyptian.",
+        "This team could win the Premiere League.",
+        "We're about to go on a 16-0 run.",
+        "John Wall just pissed his pants.",
+        "Draymond Green says this lineup has five DPOYs in it.",
+        "Ladies and Gentleman, your All-NBA First Team.",
+        "Makes you wonder if there is a God.",
+        "A licky boom-boom down.",
+        "To learn to overcome the heartaches and pain.",
+        "This lineup raw like cocaine straight from Bolivia.",
+        "We about to terrorize the jam like troops in Pakistan."
+    ];
+
     function Player(id, name, versatility, headshot) {
         this.id = id;
         this.name = name;
@@ -58,9 +88,13 @@ function displayLineup() {
 
     $('#lineup-result').html(str);
 }
+function showMessage() {
+        $('#message').html(messages[Math.floor(Math.random() * messages.length)]);
+}
 
 $('#create-lineup-btn').click(function(){
     displayLineup();
+    showMessage();
     return false;
 });
 displayLineup();
